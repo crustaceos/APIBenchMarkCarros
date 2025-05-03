@@ -1460,23 +1460,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\caueg\\.nuget\\packages\\": {},
+    "C:\\Users\\User\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\caueg\\OneDrive\\Área de Trabalho\\PROJETO API CARROS WEB AVANCADO\\ProjetoBenchMarkCarros\\ProjetoBenchMarkCarros.csproj",
+      "projectUniqueName": "C:\\Users\\User\\OneDrive\\Desktop\\APIBenchMarkCarros\\ProjetoBenchMarkCarros\\ProjetoBenchMarkCarros.csproj",
       "projectName": "ProjetoBenchMarkCarros",
-      "projectPath": "C:\\Users\\caueg\\OneDrive\\Área de Trabalho\\PROJETO API CARROS WEB AVANCADO\\ProjetoBenchMarkCarros\\ProjetoBenchMarkCarros.csproj",
-      "packagesPath": "C:\\Users\\caueg\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\caueg\\OneDrive\\Área de Trabalho\\PROJETO API CARROS WEB AVANCADO\\ProjetoBenchMarkCarros\\obj\\",
+      "projectPath": "C:\\Users\\User\\OneDrive\\Desktop\\APIBenchMarkCarros\\ProjetoBenchMarkCarros\\ProjetoBenchMarkCarros.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\OneDrive\\Desktop\\APIBenchMarkCarros\\ProjetoBenchMarkCarros\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\caueg\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1502,8 +1502,9 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "direct"
-      }
+        "auditMode": "all"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -1547,8 +1548,20 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.405/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Text.Json' 7.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-hh2w-p6rv-4g7w",
+      "libraryId": "System.Text.Json",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
