@@ -10,7 +10,6 @@ namespace ProjetoBenchMarkCarros.Data
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions options) : base(options) { }
-
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Carro> Carros { get; set; }
     }
