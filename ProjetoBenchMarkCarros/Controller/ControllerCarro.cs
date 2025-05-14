@@ -39,7 +39,7 @@ namespace ProjetoBenchMarkCarros.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<Carro>> PostCarro(Carro carro)
+        public async Task<ActionResult<Carro>> PostCarro([FromBody]Carro carro)
         {
             _appDbContext.Carros.Add(carro);
             await _appDbContext.SaveChangesAsync();
@@ -47,7 +47,7 @@ namespace ProjetoBenchMarkCarros.Controller
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCarro(int id, Carro carroAtualizado)
+        public async Task<IActionResult> PutCarro(int id, [FromBody] Carro carroAtualizado)
         {
             var carroExistente = await _appDbContext.Carros.FindAsync(id);
             if (carroExistente == null)

@@ -35,7 +35,8 @@ namespace ProjetoBenchMarkCarros.Models
         public float ConsumoKmL { get; set; }
         [Required]
         public float Aceleracao { get; set; } //Aceleração de 0 a 100
-        public Usuario? NomeUsuario { get; set; }
+        public int UsuarioId { get; set; }
+        public Usuario? Usuario { get; set; }
 
     }
 }
