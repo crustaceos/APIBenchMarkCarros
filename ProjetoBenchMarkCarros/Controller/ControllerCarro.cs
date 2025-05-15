@@ -27,23 +27,46 @@ namespace ProjetoBenchMarkCarros.Controller
             return Ok(carros);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Carro>> GetCarro(int id)
+        [HttpGet("{nomeCarro}")]
+        public async Task<ActionResult<Carro>> GetCarro(string nomeCarro)
         {
-            var carro = await _appDbContext.Carros.FindAsync(id);
-            if (carro == null)
-            {
-                return NotFound("Carro não encontrado.");
-            }
-            return Ok(carro);
+           var carro = await _appDbContext.Carros.FirstOrDefaultAsync(c => c.NomeCarro == nomeCarro);
+                if (carro == null)
+                {
+                    return NotFound("Carro não encontrado.");
+                }
+                return Ok(carro);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Carro>> PostCarro([FromBody]Carro carro)
+        public async Task<ActionResult<Carro>> PostCarro([FromBody]Carro novoCarroDto)
         {
-            _appDbContext.Carros.Add(carro);
+                 var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+             if (usuarioId == null)
+             {
+                 return Unauthorized("Usuário não logado.");
+             }
+                    var novoCarro = new Carro
+                    {
+                        Marca = novoCarroDto.Marca,
+                        NomeCarro = novoCarroDto.NomeCarro,
+                        TipoModelo = novoCarroDto.TipoModelo,
+                        Imagem = novoCarroDto.Imagem,
+                        Cilindrada = novoCarroDto.Cilindrada,
+                        TorqueKgfm = novoCarroDto.TorqueKgfm,
+                        Rpm = novoCarroDto.Rpm,
+                        Ano = novoCarroDto.Ano,
+                        Valor = novoCarroDto.Valor,
+                        PotenciaCV = novoCarroDto.PotenciaCV,
+                        ConsumoKmL = novoCarroDto.ConsumoKmL,
+                        Aceleracao = novoCarroDto.Aceleracao,
+                        UsuarioId = usuarioId.Value
+                    };
+
+            _appDbContext.Carros.Add(novoCarro);
             await _appDbContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCarro), new { id = carro.IdCarro }, carro);
+
+            return Ok(novoCarro);
         }
 
         [HttpPut("{id}")]

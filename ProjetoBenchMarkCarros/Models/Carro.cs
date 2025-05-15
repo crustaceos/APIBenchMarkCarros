@@ -32,7 +32,7 @@ namespace ProjetoBenchMarkCarros.Models
         [Required]
         public int PotenciaCV { get; set; }
         [Required]
-        public float ConsumoKmL { get; set; }
+        public float ConsumoKmL { get; set; } //quantos km ele faz por litro
         [Required]
         public float Aceleracao { get; set; } //Aceleração de 0 a 100
         public int UsuarioId { get; set; }

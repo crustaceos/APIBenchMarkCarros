@@ -37,20 +37,27 @@ namespace ProjetoBenchMarkCarros.Controller
             return Ok(usuario);
         }
 
-        [HttpPost]
+        [HttpPost("cadastro")]
         public async Task<ActionResult<Usuario>> CadastroUsuario([FromBody] Usuario novoUsuario)
         {
-            var verificarExistente = await _appDbContext.Usuarios.FindAsync(novoUsuario);
-            if(verificarExistente == null){
-                _appDbContext.Usuarios.Add(novoUsuario);
-                await _appDbContext.SaveChangesAsync();
+            var usuarioExistente = await _appDbContext.Usuarios
+                .FirstOrDefaultAsync(u => u.NomeUsuario == novoUsuario.NomeUsuario);
 
-                HttpContext.Session.SetInt32("UsuarioId", novoUsuario.IdUsuario);
-            }
-            return StatusCode(403, "Usuario já existe");
+                if (usuarioExistente != null)
+                {
+                    return BadRequest("Usuário já cadastrado.");
+                }
+
+                    _appDbContext.Usuarios.Add(novoUsuario);
+                    await _appDbContext.SaveChangesAsync();
+
+                    
+                    HttpContext.Session.SetInt32("UsuarioId", novoUsuario.IdUsuario);
+
+                    return Ok("Usuário cadastrado com sucesso.");
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<ActionResult<Usuario>> LoginUsuario([FromBody] Usuario loginUsuario)
         {
             var usuario = await _appDbContext.Usuarios.FirstOrDefaultAsync(u => u.NomeUsuario == loginUsuario.NomeUsuario && u.SenhaUsuario == loginUsuario.SenhaUsuario);
