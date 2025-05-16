@@ -70,7 +70,43 @@ namespace ProjetoBenchMarkCarros.Controller
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCarro(int id, [FromBody] Carro carroAtualizado)
+public async Task<IActionResult> PutCarro(int id, [FromBody] Carro carroAtualizado)
+{
+    
+    var carroExistente = await _appDbContext.Carros.FindAsync(id);
+            if (carroExistente == null)
+            {
+                return NotFound("Carro não encontrado.");
+            }
+
+
+    var usuarioIdSessao = HttpContext.Session.GetInt32("UsuarioId");
+
+            if (usuarioIdSessao == null)
+            {
+                return Unauthorized("Usuário não está logado.");
+            }
+
+
+            if (carroExistente.UsuarioId != usuarioIdSessao)
+            {
+                return Forbid("Você não tem permissão para editar este carro.");
+            }
+
+    
+         _appDbContext.Entry(carroExistente).CurrentValues.SetValues(carroAtualizado);
+    
+    
+    carroExistente.UsuarioId = usuarioIdSessao.Value;
+
+    await _appDbContext.SaveChangesAsync();
+
+    return NoContent();
+}
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCarro(int id)
         {
             var carroExistente = await _appDbContext.Carros.FindAsync(id);
             if (carroExistente == null)
@@ -78,22 +114,22 @@ namespace ProjetoBenchMarkCarros.Controller
                 return NotFound("Carro não encontrado.");
             }
 
-            _appDbContext.Entry(carroExistente).CurrentValues.SetValues(carroAtualizado);
-            await _appDbContext.SaveChangesAsync();
+            var usuarioIdSessao = HttpContext.Session.GetInt32("UsuarioId");
 
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCarro(int id)
-        {
-            var carro = await _appDbContext.Carros.FindAsync(id);
-            if (carro == null)
+            if (usuarioIdSessao == null)
             {
-                return NotFound("Carro não encontrado.");
+                return Unauthorized("Usuário não está logado");
             }
 
-            _appDbContext.Carros.Remove(carro);
+            if (carroExistente.UsuarioId != usuarioIdSessao)
+            {
+                return Unauthorized("Você não tem permissão para deletar esse carro");
+            }
+
+            _appDbContext.Carros.Remove(carroExistente);
+
+            carroExistente.UsuarioId = usuarioIdSessao.Value;
+
             await _appDbContext.SaveChangesAsync();
 
             return Ok("Carro deletado com sucesso!");
