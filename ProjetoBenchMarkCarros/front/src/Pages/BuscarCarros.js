@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function BuscarCarro() {
+  const navigate = useNavigate();
   const [nomeCarro, setNomeCarro] = useState('');
   const [carro, setCarro] = useState(null);
   const [erro, setErro] = useState('');
 
   const buscarCarro = async () => {
     try {
-      const response = await axios.get(`https://localhost:5019/api/carros/${nomeCarro}`);
+      const response = await axios.get(`http://localhost:5019/api/carros/${nomeCarro}`);
       setCarro(response.data);
       setErro('');
     } catch (error) {
@@ -17,8 +19,13 @@ function BuscarCarro() {
     }
   };
 
+  function voltarHome(){
+    navigate('/home')
+  }
+
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{padding:'20px'}}>
+      <button onClick = {voltarHome}>Home</button>
       <h2>Buscar Carro</h2>
       <input
         type="text"
@@ -26,7 +33,7 @@ function BuscarCarro() {
         value={nomeCarro}
         onChange={(e) => setNomeCarro(e.target.value)}
       />
-      <button onClick={buscarCarro} style={{ marginLeft: '10px' }}>
+      <button onClick={buscarCarro}>
         Buscar
       </button>
 

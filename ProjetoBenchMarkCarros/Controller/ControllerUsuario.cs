@@ -54,7 +54,7 @@ namespace ProjetoBenchMarkCarros.Controller
                     
                     HttpContext.Session.SetInt32("UsuarioId", novoUsuario.IdUsuario);
 
-                    return Ok("Usuário cadastrado com sucesso.");
+                    return Ok(new { mensagem = "Cadastro realizado com sucesso.", usuarioId = novoUsuario.IdUsuario });
         }
 
         [HttpPost("login")]
