@@ -15,7 +15,7 @@ namespace ProjetoBenchMarkCarros.Controller
     {
         private readonly AppDbContext _appDbContext;
 
-        public UsuarioController (AppDbContext appDbContext)
+        public UsuarioController(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
@@ -31,7 +31,8 @@ namespace ProjetoBenchMarkCarros.Controller
         public async Task<ActionResult<Usuario>> GetUsuarioId(int id)
         {
             var usuario = await _appDbContext.Usuarios.FindAsync(id);
-            if(usuario == null){
+            if (usuario == null)
+            {
                 return NotFound("Usuario não encontrado");
             }
             return Ok(usuario);
@@ -43,18 +44,18 @@ namespace ProjetoBenchMarkCarros.Controller
             var usuarioExistente = await _appDbContext.Usuarios
                 .FirstOrDefaultAsync(u => u.NomeUsuario == novoUsuario.NomeUsuario);
 
-                if (usuarioExistente != null)
-                {
-                    return BadRequest("Usuário já cadastrado.");
-                }
+            if (usuarioExistente != null)
+            {
+                return BadRequest("Usuário já cadastrado.");
+            }
 
-                    _appDbContext.Usuarios.Add(novoUsuario);
-                    await _appDbContext.SaveChangesAsync();
+            _appDbContext.Usuarios.Add(novoUsuario);
+            await _appDbContext.SaveChangesAsync();
 
-                    
-                    HttpContext.Session.SetInt32("UsuarioId", novoUsuario.IdUsuario);
 
-                    return Ok(new { mensagem = "Cadastro realizado com sucesso.", usuarioId = novoUsuario.IdUsuario });
+            HttpContext.Session.SetInt32("UsuarioId", novoUsuario.IdUsuario);
+
+            return Ok(new { mensagem = "Cadastro realizado com sucesso.", usuarioId = novoUsuario.IdUsuario });
         }
 
         [HttpPost("login")]
@@ -62,7 +63,8 @@ namespace ProjetoBenchMarkCarros.Controller
         {
             var usuario = await _appDbContext.Usuarios.FirstOrDefaultAsync(u => u.NomeUsuario == loginUsuario.NomeUsuario && u.SenhaUsuario == loginUsuario.SenhaUsuario);
 
-            if(usuario == null){
+            if (usuario == null)
+            {
                 return Unauthorized("Usúario ou senha inválidos.");
             }
 
@@ -72,15 +74,31 @@ namespace ProjetoBenchMarkCarros.Controller
         }
 
         [HttpGet("verifica-sessao")]
-       public IActionResult VerificaSessao()
-       {
+        public IActionResult VerificaSessao()
+        {
             var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
 
-            if (usuarioId == null){
-                    return Unauthorized("Usuário não está logado.");
+            if (usuarioId == null)
+            {
+                return Unauthorized("Usuário não está logado.");
             }
 
             return Ok($"Usuário logado com ID: {usuarioId}");
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletarUsuario(int id)
+        {
+             var usuario = await _appDbContext.Usuarios.FindAsync(id);
+
+            if (usuario == null)
+            {
+            return NotFound("Usuário não encontrado.");
+            }
+
+            _appDbContext.Usuarios.Remove(usuario);
+            await _appDbContext.SaveChangesAsync();
+
+    return Ok("Usuário deletado com sucesso.");
 }
         
 
