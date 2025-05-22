@@ -37,13 +37,11 @@ function CriarCarro() {
     }
   };
 
-  function navegarHome(){
-    navigate = ('/home')
-  }
+ const voltarHome = () => navigate('/home');
 
   return (
     <div style={{ padding: '20px' }}>
-        <button onClick = {navegarHome}>Home</button>
+        <button onClick = {voltarHome}>Home</button>
 
       <h2>Cadastrar Novo Carro</h2>
       {Object.keys(carro).map((key) => (

@@ -8,6 +8,8 @@ import Sessao from './Pages/Sessao';
 import ListaCarros from './Pages/ListaCarros';
 import CriarCarro from './Pages/CriarCarro';
 import DeletarCarro from './Pages/DeletarCarro';
+import AtualizarCarro from './Pages/AtualizarCarro';
+import CompararCarros from './Pages/CompararCarros';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -39,6 +41,8 @@ function App() {
             <Route path="/listacarros" element={<ListaCarros/>}/>
             <Route path="/criarcarro" element={<CriarCarro/>}/>
             <Route path="/deletarcarro" element={<DeletarCarro/>}/>
+            <Route path="/atualizarcarro" element={<AtualizarCarro/>}/>
+            <Route path="/compararcarros" element={<CompararCarros/>}/>
           </>
         ) : (
           <Route path="*" element={<Navigate to="/" />} />

@@ -69,7 +69,7 @@ namespace ProjetoBenchMarkCarros.Controller
             return Ok(novoCarro);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("atualizarCarro/{id}")]
         public async Task<IActionResult> PutCarro(int id, [FromBody] Carro carroAtualizado)
         {
 
@@ -180,7 +180,7 @@ namespace ProjetoBenchMarkCarros.Controller
             });
         }
             
-
+                //pra listar no front todos os carros que o usuario logado na sessão criou
                         [HttpGet("listarCarrosUsuario")]
             public async Task<IActionResult> ListarCarrosUsuario()
             {

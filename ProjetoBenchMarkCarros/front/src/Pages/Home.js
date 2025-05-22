@@ -14,6 +14,10 @@ function Home(){
             <button onClick = {() => navigate('/criarcarro')}>Criar Carro</button>
             <p> </p>
             <button onClick = {() => navigate('/deletarcarro')}>Deletar Carro</button>
+            <p> </p>
+            <button onClick = {() => navigate('/atualizarcarro')}>Atualizar Carro</button>
+            <p> </p>
+            <button onClick = {() => navigate('/compararcarros')}>Comparar Carros</button>
         </div>
 
 

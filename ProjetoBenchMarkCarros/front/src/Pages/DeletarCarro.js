@@ -7,7 +7,6 @@ function DeletarCarros() {
   const [mensagem, setMensagem] = useState('');
   const navigate = useNavigate();
 
-  // Buscar carros do usuário logado
   useEffect(() => {
     axios.get('http://localhost:5019/api/carros/listarCarrosUsuario', { withCredentials: true })
       .then(response => setCarros(response.data))
@@ -21,13 +20,12 @@ function DeletarCarros() {
       });
   }, []);
 
-  
-  const deletarCarro = async (id) => {
-    console.log("Deletando carro com id:", id);
+  const deletarCarro = async (idCarro) => {
+    console.log("Deletando carro com id:", idCarro);
     try {
-      await axios.delete(`http://localhost:5019/api/carros/deletarCarro/${id}`, { withCredentials: true });
+      await axios.delete(`http://localhost:5019/api/carros/deletarCarro/${idCarro}`, { withCredentials: true });
       setMensagem('Carro deletado com sucesso!');
-      setCarros(carros.filter(c => c.id !== id));
+      setCarros(carros.filter(c => c.idCarro !== idCarro));
     } catch (error) {
       const msg = error.response?.data
         ? (typeof error.response.data === 'string'
@@ -38,30 +36,29 @@ function DeletarCarros() {
     }
   };
 
-  
   const voltarHome = () => navigate('/home');
 
   return (
     <div style={{ padding: '20px' }}>
-      <button onClick={voltarHome}>Voltar à Home</button>
+      <button onClick={voltarHome}>Home</button>
       <h2>Deletar Carros</h2>
       {mensagem && <p>{mensagem}</p>}
       {carros.length === 0 ? (
         <p>Você não possui carros cadastrados.</p>
       ) : (
         carros.map(carro => (
-          <div key={carro.id} style={{ margin: '10px', padding: '10px', border: '1px solid #ccc' }}>
+          <div key={carro.idCarro} style={{ margin: '10px', padding: '10px', border: '1px solid #ccc' }}>
             <h3>{carro.nomeCarro}</h3>
             <p><strong>Marca:</strong> {carro.marca}</p>
-            <p><strong>Tipo:</strong> {carro.tipoModelo}</p>
             <p><strong>ID do Usuário:</strong> {carro.usuarioId}</p>
             {carro.imagem && (
               <img src={carro.imagem} alt={`Imagem de ${carro.nomeCarro}`} width="300" />
             )}
-            <button onClick={() => deletarCarro(carro.id)}>
+            <br />
+            <button onClick={() => deletarCarro(carro.idCarro)}>
               Deletar
             </button>
-          </div>
+          </div>  
         ))
       )}
     </div>

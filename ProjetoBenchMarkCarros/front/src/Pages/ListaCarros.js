@@ -22,9 +22,7 @@ function ListaCarros() {
     listarCarros();
   }, []);
 
-  function voltarHome() {
-    navigate('/home');
-  }
+  const voltarHome = () => navigate('/home');
 
   return (
     <div>

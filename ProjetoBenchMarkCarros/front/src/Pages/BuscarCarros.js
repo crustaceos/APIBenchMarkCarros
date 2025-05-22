@@ -19,9 +19,7 @@ function BuscarCarro() {
     }
   };
 
-  function voltarHome(){
-    navigate('/home')
-  }
+  const voltarHome = () => navigate('/home');
 
   return (
     <div style={{padding:'20px'}}>
