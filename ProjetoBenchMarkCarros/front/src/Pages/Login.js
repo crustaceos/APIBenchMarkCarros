@@ -14,10 +14,10 @@ function Login({onLogin}) {
       const response = await axios.post('http://localhost:5019/api/usuario/login', {
         nomeUsuario,
         senhaUsuario
-      });
+      }, {withCredentials: true});
       setMensagem(response.data.mensagem);
       onLogin();
-      navigate('/Home');
+      navigate('/home');
     } catch (error) {
       setMensagem(error.response?.data || 'Erro ao fazer login.');
     }

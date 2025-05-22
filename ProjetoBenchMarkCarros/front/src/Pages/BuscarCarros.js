@@ -48,6 +48,9 @@ function BuscarCarro() {
           <p><strong>Valor:</strong> R$ {carro.valor}</p>
           <p><strong>Potência:</strong> {carro.potenciaCV} CV</p>
           <p><strong>Consumo:</strong> {carro.consumoKmL} km/L</p>
+          <p><strong>Cilindrada:</strong> {carro.cilindrada} </p>
+          <p><strong>Torque Kgfm:</strong> {carro.torqueKgfm} </p>
+          <p><strong>Máximo de RPM:</strong>{carro.rpm}</p>
           <p><strong>Aceleração (0-100):</strong> {carro.aceleracao} s</p>
           <img src={carro.imagem} alt="Imagem do carro" width="300" />
         </div>

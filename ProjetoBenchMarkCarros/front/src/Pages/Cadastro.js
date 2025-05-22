@@ -14,10 +14,10 @@ function Cadastro({ onCadastro }) {
       const response = await axios.post('http://localhost:5019/api/usuario/cadastro', {
         nomeUsuario,
         senhaUsuario
-      });
+      } , {withCredentials: true});
       setMensagem(response.data.mensagem);
       onCadastro();
-      navigate('/Home');
+      navigate('/home');
     } catch (error) {
       setMensagem(error.response?.data || 'Erro ao cadastrar usuário.');
     }

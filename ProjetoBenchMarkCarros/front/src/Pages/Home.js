@@ -8,6 +8,12 @@ function Home(){
             <h1>Home</h1>
             <p>Aqui você poderá comparar carros, para descobrir qual tem mais chance de ganhar em um Corrida e qual tem o melhor Custo Benefício </p>
             <button onClick = {() => navigate('/buscarcarros')} >Procurar um Carro</button>
+            <p> </p>
+            <button onClick = {() => navigate('/listacarros')}>Listar Carros</button>
+            <p> </p>
+            <button onClick = {() => navigate('/criarcarro')}>Criar Carro</button>
+            <p> </p>
+            <button onClick = {() => navigate('/deletarcarro')}>Deletar Carro</button>
         </div>
 
 

@@ -20,7 +20,7 @@ namespace ProjetoBenchMarkCarros.Controller
             _appDbContext = appDbContext;
         }
 
-        [HttpGet]
+        [HttpGet("listarCarros")]
         public async Task<ActionResult<IEnumerable<Carro>>> GetCarros()
         {
             var carros = await _appDbContext.Carros.ToListAsync();
@@ -38,7 +38,7 @@ namespace ProjetoBenchMarkCarros.Controller
             return Ok(carro);
         }
 
-        [HttpPost]
+        [HttpPost("criarCarro")]
         public async Task<ActionResult<Carro>> PostCarro([FromBody] Carro novoCarroDto)
         {
             var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
@@ -105,7 +105,7 @@ namespace ProjetoBenchMarkCarros.Controller
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("deletarCarro/{id}")]
         public async Task<IActionResult> DeleteCarro(int id)
         {
             var carroExistente = await _appDbContext.Carros.FindAsync(id);
@@ -134,50 +134,67 @@ namespace ProjetoBenchMarkCarros.Controller
 
             return Ok("Carro deletado com sucesso!");
         }
-        
 
-         [HttpGet("comparar")]
-            public async Task<IActionResult> CompararCarros([FromQuery] string nome1, [FromQuery] string nome2)
-            {
-                var carro1 = await _appDbContext.Carros.FirstOrDefaultAsync(c => c.NomeCarro == nome1);
-                var carro2 = await _appDbContext.Carros.FirstOrDefaultAsync(c => c.NomeCarro == nome2);
+
+        [HttpGet("comparar")]
+        public async Task<IActionResult> CompararCarros([FromQuery] string nome1, [FromQuery] string nome2)
+        {
+            var carro1 = await _appDbContext.Carros.FirstOrDefaultAsync(c => c.NomeCarro == nome1);
+            var carro2 = await _appDbContext.Carros.FirstOrDefaultAsync(c => c.NomeCarro == nome2);
 
             if (carro1 == null || carro2 == null)
             {
                 return NotFound("Um dos carros não foi encontrado");
             }
 
-                //Aqui to criando um indice que baseado em um peso q eu coloquei (por exemplo, potencia tem peso de 30% no indice) e compara ele entre os dois carros, oq for maior ganha
-                double indicePerformance(Carro c) =>
-                    (c.TorqueKgfm * 0.2) +
-                    (c.Rpm * 0.1) +
-                    (c.PotenciaCV * 0.3) +
-                    (c.Cilindrada * 0.2) +
-                    //aqui ele divide a aceleração por um, depois multiplca por 10, ent, quanto menor a aceleração, maior o resultado, e vice versa
-                    (1.0 / c.Aceleracao * 10);
+            //Aqui to criando um indice que baseado em um peso q eu coloquei (por exemplo, potencia tem peso de 30% no indice) e compara ele entre os dois carros, oq for maior ganha
+            double indicePerformance(Carro c) =>
+                (c.TorqueKgfm * 0.2) +
+                (c.Rpm * 0.1) +
+                (c.PotenciaCV * 0.3) +
+                (c.Cilindrada * 0.2) +
+                //aqui ele divide a aceleração por um, depois multiplca por 10, ent, quanto menor a aceleração, maior o resultado, e vice versa
+                (1.0 / c.Aceleracao * 10);
 
-                //Aqui ele faz a mesma coisa q o indice de performance, mas ele subtrai do indice o valor do carro, pq quanto maior, pior 
-                double indiceCustoBeneficio(Carro c) =>
-                    (c.ConsumoKmL * 0.5) -
-                    (Convert.ToDouble(c.Valor) * 0.0001) +
-                    (c.Ano * 0.1);
+            //Aqui ele faz a mesma coisa q o indice de performance, mas ele subtrai do indice o valor do carro, pq quanto maior, pior 
+            double indiceCustoBeneficio(Carro c) =>
+                (c.ConsumoKmL * 0.5) -
+                (Convert.ToDouble(c.Valor) * 0.0001) +
+                (c.Ano * 0.1);
 
-                var desempenho1 = indicePerformance(carro1);
-                var desempenho2 = indicePerformance(carro2);
+            var desempenho1 = indicePerformance(carro1);
+            var desempenho2 = indicePerformance(carro2);
 
-                var custo1 = indiceCustoBeneficio(carro1);
-                var custo2 = indiceCustoBeneficio(carro2);
+            var custo1 = indiceCustoBeneficio(carro1);
+            var custo2 = indiceCustoBeneficio(carro2);
 
-                var vencedorCorrida = desempenho1 > desempenho2 ? carro1 : carro2;
-                var melhorCustoBeneficio = custo1 > custo2 ? carro1 : carro2;
+            var vencedorCorrida = desempenho1 > desempenho2 ? carro1 : carro2;
+            var melhorCustoBeneficio = custo1 > custo2 ? carro1 : carro2;
 
-                return Ok(new
+            return Ok(new
+            {
+                Carro1 = carro1.NomeCarro,
+                Carro2 = carro2.NomeCarro,
+                VencedorCorrida = vencedorCorrida.NomeCarro,
+                MelhorCustoBeneficio = melhorCustoBeneficio.NomeCarro
+            });
+        }
+            
+
+                        [HttpGet("listarCarrosUsuario")]
+            public async Task<IActionResult> ListarCarrosUsuario()
+            {
+                var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+                if (usuarioId == null)
                 {
-                    Carro1 = carro1.NomeCarro,
-                    Carro2 = carro2.NomeCarro,
-                    VencedorCorrida = vencedorCorrida.NomeCarro,
-                    MelhorCustoBeneficio = melhorCustoBeneficio.NomeCarro
-                });
+                    return Unauthorized("Usuário não logado.");
+                }
+
+                var carrosDoUsuario = await _appDbContext.Carros
+                    .Where(c => c.UsuarioId == usuarioId)
+                    .ToListAsync();
+
+                return Ok(carrosDoUsuario);
             }
 
     }
