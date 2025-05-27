@@ -87,6 +87,7 @@ function CompararCarros() {
                 <p><strong>Consumo:</strong> {dadosCarro1.consumoKmL} km/L</p>
                 <p><strong>Valor:</strong> R$ {dadosCarro1.valor}</p>
                 <p><strong>Ano:</strong> {dadosCarro1.ano}</p>
+                <img src={dadosCarro1.imagem} alt="Imagem do carro" width="300" />
               </div>
 
               <hr />
@@ -97,6 +98,7 @@ function CompararCarros() {
                 <p><strong>Consumo:</strong> {dadosCarro2.consumoKmL} km/L</p>
                 <p><strong>Valor:</strong> R$ {dadosCarro2.valor}</p>
                 <p><strong>Ano:</strong> {dadosCarro2.ano}</p>
+                <img src={dadosCarro2.imagem} alt="Imagem do carro" width="300" />
               </div>
             </div>
 
@@ -112,6 +114,7 @@ function CompararCarros() {
                 <p><strong>RPM:</strong> {dadosCarro1.rpm}</p>
                 <p><strong>Potência:</strong> {dadosCarro1.potenciaCV} CV</p>
                 <p><strong>Aceleração:</strong> {dadosCarro1.aceleracao} s</p>
+                <img src={dadosCarro1.imagem} alt="Imagem do carro" width="300" />
               </div>
 
               <hr />
@@ -124,6 +127,7 @@ function CompararCarros() {
                 <p><strong>RPM:</strong> {dadosCarro2.rpm}</p>
                 <p><strong>Potência:</strong> {dadosCarro2.potenciaCV} CV</p>
                 <p><strong>Aceleração:</strong> {dadosCarro2.aceleracao} s</p>
+                <img src={dadosCarro2.imagem} alt="Imagem do carro" width="300" />
               </div>
             </div>
           </div>
